@@ -1,0 +1,3 @@
+/home/trigo/Projects/nashira/cmake-build-debug/CMakeFiles/nashira.dir
+/home/trigo/Projects/nashira/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/trigo/Projects/nashira/cmake-build-debug/CMakeFiles/rebuild_cache.dir

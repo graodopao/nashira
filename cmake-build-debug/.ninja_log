@@ -1,0 +1,22 @@
+# ninja log v6
+1	686	1737841283537324606	CMakeFiles/Nashira.dir/src/game_manager.cpp.o	675904c447fe2c34
+1	601	1737841283537324606	CMakeFiles/Nashira.dir/src/graphics.cpp.o	bdd95cdbb00f0fdb
+0	486	1737841283537324606	CMakeFiles/Nashira.dir/src/animated_texture.cpp.o	5a05f593ab5483c6
+1	471	1737841283537324606	CMakeFiles/Nashira.dir/src/texture.cpp.o	caf8d4a3a8701e6a
+0	588	1737841283537324606	CMakeFiles/Nashira.dir/src/asset_manager.cpp.o	a265a750887020a3
+0	458	1737841283537324606	CMakeFiles/Nashira.dir/src/audio_manager.cpp.o	7647d21204e9a5ed
+1	392	1737841283537324606	CMakeFiles/Nashira.dir/src/input_manager.cpp.o	c0ca4676f49ed6dd
+2	67	1737841316894227388	libNashira.a	13d207496ca0919e
+1	374	1737841283537324606	CMakeFiles/Nashira.dir/src/timer.cpp.o	c2d4305d52174ef4
+0	114	1737841283537324606	CMakeFiles/Nashira.dir/src/game_entity.cpp.o	f469a73804318fcf
+1	18	1737841347184441284	build.ninja	1f77d41444c8b81f
+1	97	1737841349264455955	CMakeFiles/nashira.dir/src/game_entity.cpp.o	e2adf7a82dfb5667
+1	404	1737841349264455955	CMakeFiles/nashira.dir/src/graphics.cpp.o	323ad91c9aa30492
+1	408	1737841349264455955	CMakeFiles/nashira.dir/src/input_manager.cpp.o	8d86fe8b785cb1af
+0	433	1737841349264455955	CMakeFiles/nashira.dir/src/animated_texture.cpp.o	a3a6cec120d104ea
+1	440	1737841349264455955	CMakeFiles/nashira.dir/src/audio_manager.cpp.o	14ec1a19f8c4b513
+1	451	1737841349264455955	CMakeFiles/nashira.dir/src/texture.cpp.o	72e1fd43821774e3
+1	551	1737841349264455955	CMakeFiles/nashira.dir/src/timer.cpp.o	26c159505589f9ea
+1	558	1737841349264455955	CMakeFiles/nashira.dir/src/game_manager.cpp.o	e83d7b6fb97ad01a
+0	722	1737841349264455955	CMakeFiles/nashira.dir/src/asset_manager.cpp.o	347f7f27e84803f7
+722	742	1737841349987794391	libnashira.a	f61938435a8b4c93
