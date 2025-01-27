@@ -5,8 +5,8 @@ namespace nashira {
 	class Time
 	{
 	private:
-		static unsigned int m_start_ticks;
-		static unsigned int m_elapsed_ticks;
+		static Uint64 m_start_ticks;
+		static Uint64 m_elapsed_ticks;
 
 		static float m_delta_time;
 		static float m_time_scale;

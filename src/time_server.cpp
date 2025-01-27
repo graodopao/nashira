@@ -1,7 +1,10 @@
 #include "time_server.h"
 using namespace nashira;
 
-unsigned int Time::m_start_ticks{0};
+Uint64 Time::m_start_ticks{SDL_GetTicks()};
+Uint64 Time::m_elapsed_ticks{0};
+float Time::m_delta_time{0.0f};
+float Time::m_time_scale{0.0f};
 
 Time::Time() = default;
 
