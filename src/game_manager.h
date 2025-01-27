@@ -15,12 +15,6 @@ namespace nashira {
 		const int FRAME_RATE = 120;
 
 		bool m_quit;
-		Graphics* m_graphics;
-		AssetManager* m_asset_manager;
-		InputManager* m_input_manager;
-		AudioManager* m_audio_manager;
-
-		Timer* m_timer;
 
 		SDL_Event m_events{};
 

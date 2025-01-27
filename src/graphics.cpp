@@ -2,53 +2,14 @@
 #include <SDL_image.h>
 using namespace nashira;
 
+static SDL_Window* m_window{nullptr};
+static SDL_Surface* m_back_buffer{nullptr};
+static SDL_Renderer* mRenderer{nullptr};
 
-Graphics* Graphics::s_instance = nullptr;
-bool Graphics::s_initialized = false;
 
-Graphics* Graphics::instance()
-{
-	if (s_instance == nullptr)
-	{
-		s_instance = new Graphics;
-	}
 
-	return s_instance;
-}
 
-void Graphics::release()
-{
-	delete s_instance;
-	s_instance = nullptr;
-
-	s_initialized = false;
-}
-
-bool Graphics::initialized()
-{
-	return s_initialized;
-}
-
-Graphics::Graphics()
-{
-	m_back_buffer = nullptr;
-	s_initialized = init();
-}
-
-Graphics::~Graphics()
-{
-	SDL_DestroyWindow(m_window);
-	m_window = nullptr;
-	
-	SDL_DestroyRenderer(mRenderer);
-	mRenderer = nullptr;
-
-	TTF_Quit();
-	IMG_Quit();
-	SDL_Quit();
-}
-
-bool Graphics::init()
+bool Graphics::initialize()
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
@@ -73,8 +34,7 @@ bool Graphics::init()
 
 	SDL_SetRenderDrawColor(mRenderer, 2, 8, 13, 255);
 
-	const int flags = IMG_INIT_PNG;
-	if (!(IMG_Init(flags) & flags))
+	if (constexpr int flags = IMG_INIT_PNG; !(IMG_Init(flags) & flags))
 	{
 		printf("IMG Initialization error: %s\n", IMG_GetError());
 		return false;
@@ -90,7 +50,7 @@ bool Graphics::init()
 	return true;
 }
 
-SDL_Texture* Graphics::load_texture(const std::string &path) const {
+SDL_Texture* Graphics::load_texture(const std::string &path)	 {
 	SDL_Texture* tex = nullptr;
 
 	SDL_Surface* surface = IMG_Load(path.c_str());
@@ -103,7 +63,7 @@ SDL_Texture* Graphics::load_texture(const std::string &path) const {
 	}
 
 	tex = SDL_CreateTextureFromSurface(mRenderer, surface);
-	if (surface == nullptr)
+	if (tex == nullptr)
 	{
 		printf("Image failed to load from surface: Path: (%s) - Error: %s\n", path.c_str(), IMG_GetError());
 
@@ -115,7 +75,7 @@ SDL_Texture* Graphics::load_texture(const std::string &path) const {
 	return tex;
 }
 
-SDL_Texture* Graphics::create_text_texture(TTF_Font* font, const std::string &text, const SDL_Color color) const {
+SDL_Texture* Graphics::create_text_texture(TTF_Font* font, const std::string &text, const SDL_Color color) {
 	SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
 
 	if (surface == nullptr)
@@ -138,14 +98,28 @@ SDL_Texture* Graphics::create_text_texture(TTF_Font* font, const std::string &te
 	return tex;
 }
 
-void Graphics::clear_back_buffer() const {
+void Graphics::clear_back_buffer() {
 	SDL_RenderClear(mRenderer);
 }
 
-void Graphics::draw_texture(SDL_Texture* tex, const SDL_Rect* clip, const SDL_Rect* rend, const float angle, const SDL_RendererFlip flip) const {
+void Graphics::draw_texture(SDL_Texture* tex, const SDL_Rect* clip, const SDL_Rect* rend, const float angle, const SDL_RendererFlip flip) {
 	SDL_RenderCopyEx(mRenderer, tex, clip, rend, angle, nullptr, flip);
 }
 
-void Graphics::render() const {
+void Graphics::render() {
 	SDL_RenderPresent(mRenderer);
+}
+
+
+void Graphics::quit()
+{
+	SDL_DestroyWindow(m_window);
+	m_window = nullptr;
+
+	SDL_DestroyRenderer(mRenderer);
+	mRenderer = nullptr;
+
+	TTF_Quit();
+	IMG_Quit();
+	SDL_Quit();
 }

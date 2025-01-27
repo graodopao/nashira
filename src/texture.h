@@ -1,6 +1,6 @@
 #pragma once
 #include "game_entity.h"
-#include "timer.h"
+#include "time_server.h"
 #include "asset_manager.h"
 
 namespace nashira {
@@ -9,9 +9,6 @@ namespace nashira {
 	protected:
 		SDL_Texture* m_tex;
 		Texture* second_texture = nullptr;
-
-		Graphics* m_graphics;
-		Timer* m_timer = nullptr;
 
 		int m_width;
 		int m_height;
@@ -30,8 +27,8 @@ namespace nashira {
 	public:
 		static float rotate_point(Vector2 pos, float dist, float dir);
 
-		explicit Texture(std::string filename);
-		Texture(std::string filename, int x, int y, int w, int h);
+		explicit Texture(const std::string& filename);
+		Texture(const std::string& filename, int x, int y, int w, int h);
 		Texture(const std::string &text, const std::string &font_path, int size, SDL_Color);
 
 		float building_update(float delta_time, float angle, float leftPoint, float rightPoint, int& objective, int& objective_term);
@@ -55,7 +52,7 @@ namespace nashira {
 		[[nodiscard]] bool is_demolished() const;
 
 	private:
-
+		/// TODO: Nothing of this should be here...
 		enum BUILDING_STATE
 		{
 			building,

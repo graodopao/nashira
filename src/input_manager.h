@@ -4,60 +4,51 @@
 #include "math_helper.h"
 
 namespace nashira {
-	class InputManager
+	class Input
 	{
 
 	public:
 
 		enum MOUSE_BUTTONS
 		{
-			left,
-			right,
-			middle,
-			back,
-			forward
+			LEFT = SDL_BUTTON_LEFT,
+			MIDDLE = SDL_BUTTON_MMASK,
+			RIGHT = SDL_BUTTON_RIGHT,
+			BACK = SDL_BUTTON_X1MASK,
+			FORWARD = SDL_BUTTON_X2MASK,
 		};
 
 	private:
+		static Uint8* m_prev_keyboard_state;
+		static const Uint8* m_keyboard_state;
+		static int m_key_length;
 
-		static InputManager* s_instance;
+		static Uint32 m_prev_mouse_state;
+		static Uint32 m_mouse_state;
 
-
-		Uint8* m_prev_keyboard_state;
-		const Uint8* m_keyboard_state;
-		int m_key_length;
-
-		Uint32 m_prev_mouse_state;
-		Uint32 m_mouse_state;
-
-		int m_mouse_x_pos;
-		int m_mouse_y_pos;
-
+		static int m_mouse_x;
+		static int m_mouse_y;
 	public:
+		static void initialize();
 
-		static InputManager* instance();
-		static void release();
+		[[nodiscard]] static bool key_down(SDL_Scancode scan_code);
+		[[nodiscard]] static bool key_pressed(SDL_Scancode scan_code);
+		[[nodiscard]] static bool key_released(SDL_Scancode scan_code);
 
-		bool key_down(SDL_Scancode scan_code) const;
-		bool key_pressed(SDL_Scancode scan_code) const;
-		bool key_released(SDL_Scancode scan_code) const;
+		[[nodiscard]] static bool mouse_button_down(MOUSE_BUTTONS button);
+		[[nodiscard]] static bool mouse_button_pressed(MOUSE_BUTTONS button);
+		[[nodiscard]] static bool mouse_button_released(MOUSE_BUTTONS button);
 
-		bool mouse_button_down(MOUSE_BUTTONS button) const;
-		bool mouse_button_pressed(MOUSE_BUTTONS button) const;
-		bool mouse_button_released(MOUSE_BUTTONS button) const;
+		[[nodiscard]] static bool mouse_is_in_area(const Vector2 &rect_start, const Vector2 &rect_end);
 
-		bool mouse_is_in_area(int x1, int y1, int x2, int y2) const;
+		[[nodiscard]] static Vector2 mouse_get_pos();
 
-		Vector2 mouse_get_pos() const;
+		static void update_previous_input();
 
-		void update_previous_input();
-
-		void update();
+		static void update();
 
 	private:
-
-		InputManager();
-		~InputManager();
+		Input() {}; // You're not meant to instantiate this
 	};
 }
 

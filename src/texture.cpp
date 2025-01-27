@@ -2,13 +2,12 @@
 using namespace nashira;
 
 
-Texture::Texture(std::string filename)
+
+Texture::Texture(const std::string& filename)
 {
-	m_graphics = Graphics::instance();
+	m_tex = AssetManager::get_texture(filename);
 
-	m_tex = AssetManager::instance()->get_texture(filename);
-
-	SDL_QueryTexture(m_tex, NULL, NULL, &m_width, &m_height);
+	SDL_QueryTexture(m_tex, nullptr, nullptr, &m_width, &m_height);
 
 	m_clipped = false;
 
@@ -16,11 +15,9 @@ Texture::Texture(std::string filename)
 	m_render_rect.h = m_height;
 }
 
-Texture::Texture(std::string filename, int x, int y, int w, int h)
+Texture::Texture(const std::string& filename, const int x, const int y, const int w, const int h)
 {
-	m_graphics = Graphics::instance();
-
-	m_tex = AssetManager::instance()->get_texture(filename);
+	m_tex = AssetManager::get_texture(filename);
 
 	m_clipped = true;
 
@@ -51,8 +48,8 @@ void Texture::set_alpha(Uint8 alpha) const {
 float Texture::rotate_point(Vector2 pos, float dist, float dir)
 {
 	auto* temp = new GameEntity(pos.x, pos.y);
-	temp->Rotate(dir);
-	temp->Translate(Vector2(dist, 0.0f));
+	temp->rotate(dir);
+	temp->translate(Vector2(dist, 0.0f));
 
 	const float result = temp->get_position().x;
 
@@ -62,6 +59,7 @@ float Texture::rotate_point(Vector2 pos, float dist, float dir)
 	return result;
 }
 
+/// TODO: Move to Equilibrium (future integrated feature?)
 void Texture::particle_update(float deltaTime)
 {
 	particle_tick += 1000 * deltaTime;
@@ -71,7 +69,7 @@ void Texture::particle_update(float deltaTime)
 	{
 		particle_tick = 0;
 
-		Translate(Vector2(0, 2.5));
+		translate(Vector2(0, 2.5));
 
 		if (get_position().y > 720)
 		{
@@ -84,7 +82,7 @@ void Texture::particle_update(float deltaTime)
 		horizontal_particle_tick = 0;
 
 		const int _x = rand() % 5 + 0;
-		Translate(Vector2(_x - 2.5, 0));
+		translate(Vector2(_x - 2.5, 0));
 
 		if (get_position().x > 1280)
 		{
@@ -97,6 +95,7 @@ void Texture::particle_update(float deltaTime)
 	}
 }
 
+/// TODO: Move to Equilibrium
 float Texture::building_update(float delta_time, float angle, float leftPoint, float rightPoint, int& objective, int& objective_term)
 {
 	building_idle_tick += 20 * delta_time;
@@ -106,11 +105,11 @@ float Texture::building_update(float delta_time, float angle, float leftPoint, f
 		second_texture->building_update(delta_time, angle, leftPoint, rightPoint, objective, objective_term);
 	}
 
-	if (abs(Rotation()) > 10 && current_building_state != falling && building_idle_tick > building_idle_cooldown)
+	if (abs(rotation()) > 10 && current_building_state != falling && building_idle_tick > building_idle_cooldown)
 	{
 		float direction = angle > 0 ? 130 : -130;
 
-		Translate((RIGHT * (direction * (abs(angle - 10) / 50))) * delta_time);
+		translate((RIGHT * (direction * (abs(angle - 10) / 50))) * delta_time);
 
 		if (get_position().x > rightPoint || get_position().x < leftPoint)
 		{
@@ -149,7 +148,7 @@ float Texture::building_update(float delta_time, float angle, float leftPoint, f
 
 					if (m_height < max_height)
 					{
-						Translate(UP * -2.5f);
+						translate(UP * -2.5f);
 					}
 					else
 					{
@@ -171,7 +170,6 @@ float Texture::building_update(float delta_time, float angle, float leftPoint, f
 
 					if (second_texture->is_demolished())
 					{
-						printf("Terminated\n");
 						objective_term++;
 						second_texture = nullptr;
 					}
@@ -187,7 +185,7 @@ float Texture::building_update(float delta_time, float angle, float leftPoint, f
 
 				if (m_height > 0)
 				{
-					Translate(UP * 5.0f);
+					translate(UP * 5.0f);
 				}
 				else
 				{
@@ -207,8 +205,8 @@ float Texture::building_update(float delta_time, float angle, float leftPoint, f
 	}
 	else
 	{
-		Rotate(((get_position().x > Graphics::SCREEN_WIDTH / 2.0f) ? (90.0f * delta_time) : (-90.0f * delta_time)));
-		Translate(Vector2(get_position().x > Graphics::SCREEN_WIDTH / 2.0f ? 30.0f * delta_time : -30.0f * delta_time, vertical_speed * delta_time));
+		rotate(((get_position().x > Graphics::SCREEN_WIDTH / 2.0f) ? (90.0f * delta_time) : (-90.0f * delta_time)));
+		translate(Vector2(get_position().x > Graphics::SCREEN_WIDTH / 2.0f ? 30.0f * delta_time : -30.0f * delta_time, vertical_speed * delta_time));
 
 		vertical_speed += gravity;
 
@@ -216,10 +214,12 @@ float Texture::building_update(float delta_time, float angle, float leftPoint, f
 	}
 }
 
+/// TODO: Move to Equilibrium
 bool Texture::is_demolished() const {
 	return (current_building_state == demolished);
 }
 
+/// TODO: Move to Equilibrium
 void Texture::set_building(Texture* frameTexture, int maximumHeight, bool isFrame, float constructionCooldown)
 {
 	max_height = maximumHeight;
@@ -233,11 +233,13 @@ void Texture::set_building(Texture* frameTexture, int maximumHeight, bool isFram
 	building_idle_cooldown = constructionCooldown;
 }
 
+/// TODO: Move to Equilibrium
 void Texture::building_demolish()
 {
 	current_building_state = deconstruct;
 }
 
+/// TODO: Move to Equilibrium
 void Texture::rise(const int amount, const float cap)
 {
 	m_clip_rect.h += amount;
@@ -247,6 +249,7 @@ void Texture::rise(const int amount, const float cap)
 	m_height = SDL_clamp(m_height, 0, cap);
 }
 
+/// TODO: Move to Equilibrium
 void Texture::decrease(const int amount)
 {
 	m_clip_rect.h -= amount;
@@ -263,8 +266,7 @@ void Texture::decrease(const int amount)
 
 Texture::Texture(const std::string &text, const std::string &font_path, int size, SDL_Color color)
 {
-	m_graphics = Graphics::instance();
-	m_tex = AssetManager::instance()->get_text(text, font_path, size, color);
+	m_tex = AssetManager::get_text(text, font_path, size, color);
 
 	m_clipped = false;
 
@@ -276,22 +278,21 @@ Texture::Texture(const std::string &text, const std::string &font_path, int size
 
 Texture::~Texture()
 {
-	m_tex = NULL;
-	m_graphics = NULL;
+	m_tex = nullptr;
 }
 
 void Texture::render()
 {
-	Vector2 pos = get_position(SPACE::WORLD);
-	Vector2 scale = Scale(SPACE::WORLD);
-	m_render_rect.x = (int)(pos.x - m_width*scale.x * 0.5f);
-	m_render_rect.y = (int)(pos.y - m_height*scale.y * 0.5f);
-	m_render_rect.w = (int)(m_width * scale.x);
-	m_render_rect.h = (int)(m_height * scale.y);
+	const Vector2 pos = get_position(SPACE::WORLD);
+	const Vector2 world_scale = scale(SPACE::WORLD);
+	m_render_rect.x = static_cast<int>(pos.x - m_width * world_scale.x * 0.5f);
+	m_render_rect.y = static_cast<int>(pos.y - m_height * world_scale.y * 0.5f);
+	m_render_rect.w = static_cast<int>(m_width * world_scale.x);
+	m_render_rect.h = static_cast<int>(m_height * world_scale.y);
 
-	m_graphics->draw_texture(m_tex, m_clipped ? &m_clip_rect : NULL, &m_render_rect, Rotation(SPACE::WORLD));
+	Graphics::draw_texture(m_tex, m_clipped ? &m_clip_rect : nullptr, &m_render_rect, rotation(SPACE::WORLD));
 
-	if (second_texture != NULL)
+	if (second_texture != nullptr)
 	{
 		second_texture->render();
 	}

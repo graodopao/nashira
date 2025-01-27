@@ -1,5 +1,5 @@
 #pragma once
-#include "timer.h"
+#include "time_server.h"
 #include "texture.h"
 
 namespace nashira {
@@ -19,7 +19,7 @@ namespace nashira {
 		};
 
 	private:
-		Timer* m_timer;
+		Time* m_timer;
 
 		int m_start_x;
 		int m_start_y;
@@ -37,14 +37,14 @@ namespace nashira {
 
 	public:
 
-		AnimatedTexture(std::string filename, int x, int y, int w, int h, int frame_count, float animation_speed, ANIM_DIR animation_direction);
+		AnimatedTexture(const std::string& filename, int x, int y, int w, int h, int frame_count, float animation_speed, ANIM_DIR animation_direction);
 		~AnimatedTexture() override;
 
 		void wrap_mode(WRAP_MODE mode);
 
 		void update() override;
 
-		void set_speed(float mAnimationSpeed);
+		void set_speed(float animation_speed);
 		void set_frame(float frame);
 
 	};

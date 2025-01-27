@@ -3,11 +3,9 @@
 #include <utility>
 using namespace nashira;
 
-AnimatedTexture::AnimatedTexture(std::string filename, int x, int y, int w, int h, int frame_count, float animation_speed, ANIM_DIR animation_direction)
-	: Texture(std::move(filename), x, y, w, h)
+AnimatedTexture::AnimatedTexture(const std::string& filename, int x, int y, int w, int h, int frame_count, float animation_speed, ANIM_DIR animation_direction)
+	: Texture(filename, x, y, w, h)
 {
-	m_timer = Timer::instance();
-
 	m_start_x = x;
 	m_start_y = y;
 
@@ -30,14 +28,14 @@ void AnimatedTexture::wrap_mode(const WRAP_MODE mode)
 	m_wrap_mode = mode;
 }
 
-void AnimatedTexture::set_speed(const float animationSpeed)
+void AnimatedTexture::set_speed(const float animation_speed)
 {
-	m_animation_speed = animationSpeed;
+	m_animation_speed = animation_speed;
 }
 
-void AnimatedTexture::set_frame(float timer)
+void AnimatedTexture::set_frame(const float frame)
 {
-	m_animation_timer = timer;
+	m_animation_timer = frame;
 	m_animation_done = false;
 }
 
@@ -45,7 +43,7 @@ void AnimatedTexture::update()
 {
 	if (!m_animation_done)
 	{
-		m_animation_timer += m_timer->delta_time();
+		m_animation_timer += Time::delta_time();
 
 		if (m_animation_timer >= m_animation_speed)
 		{

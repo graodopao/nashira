@@ -5,6 +5,8 @@ namespace nashira {
 	#define PI 3.14159265f
 	#define DEG_TO_RAD (PI / 180.0f)
 
+	/// TODO: Make Vector2i, although I might just use a vector math library instead
+	
 	struct Vector2
 	{
 		float x;

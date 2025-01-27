@@ -32,20 +32,20 @@ namespace nashira {
 		void set_position(Vector2 position);
 		[[nodiscard]] Vector2 get_position(SPACE space = SPACE::WORLD) const;
 
-		void Rotation(float degree_angle);
-		[[nodiscard]] float Rotation(SPACE space = SPACE::WORLD) const;
+		void rotation(float degree_angle);
+		[[nodiscard]] float rotation(SPACE space = SPACE::WORLD) const;
 
-		void Scale(Vector2 scale);
-		Vector2 Scale(SPACE space = SPACE::WORLD);
+		void scale(Vector2 scale);
+		Vector2 scale(SPACE space = SPACE::WORLD);
 
-		void Active(bool active);
-		bool Active();
+		void active(bool active);
+		bool active();
 
 		void parent(GameEntity* parent);
 		GameEntity* parent();
 
-		void Translate(Vector2 vec);
-		void Rotate(float amount);
+		void translate(Vector2 vec);
+		void rotate(float amount);
 
 		virtual void update();
 		virtual void render();
