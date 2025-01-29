@@ -2,12 +2,9 @@
 #include <SDL_image.h>
 using namespace nashira;
 
-static SDL_Window* m_window{nullptr};
-static SDL_Surface* m_back_buffer{nullptr};
-static SDL_Renderer* mRenderer{nullptr};
-
-
-
+SDL_Window* Graphics::m_window{nullptr};
+SDL_Surface* Graphics::m_back_buffer{nullptr};
+SDL_Renderer* Graphics::m_renderer{nullptr};
 
 bool Graphics::initialize()
 {
@@ -25,14 +22,14 @@ bool Graphics::initialize()
 		return false;
 	}
 
-	mRenderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
-	if (mRenderer == nullptr)
+	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+	if (m_renderer == nullptr)
 	{
 		printf("Renderer failed to create: %s\n", SDL_GetError());
 		return false;
 	}
 
-	SDL_SetRenderDrawColor(mRenderer, 2, 8, 13, 255);
+	SDL_SetRenderDrawColor(m_renderer, 2, 8, 13, 255);
 
 	if (constexpr int flags = IMG_INIT_PNG; !(IMG_Init(flags) & flags))
 	{
@@ -62,7 +59,7 @@ SDL_Texture* Graphics::load_texture(const std::string &path)	 {
 		return tex;
 	}
 
-	tex = SDL_CreateTextureFromSurface(mRenderer, surface);
+	tex = SDL_CreateTextureFromSurface(m_renderer, surface);
 	if (tex == nullptr)
 	{
 		printf("Image failed to load from surface: Path: (%s) - Error: %s\n", path.c_str(), IMG_GetError());
@@ -85,7 +82,7 @@ SDL_Texture* Graphics::create_text_texture(TTF_Font* font, const std::string &te
 		return nullptr;
 	}
 
-	SDL_Texture* tex = SDL_CreateTextureFromSurface(mRenderer, surface);
+	SDL_Texture* tex = SDL_CreateTextureFromSurface(m_renderer, surface);
 
 	if (tex == nullptr)
 	{
@@ -99,15 +96,15 @@ SDL_Texture* Graphics::create_text_texture(TTF_Font* font, const std::string &te
 }
 
 void Graphics::clear_back_buffer() {
-	SDL_RenderClear(mRenderer);
+	SDL_RenderClear(m_renderer);
 }
 
 void Graphics::draw_texture(SDL_Texture* tex, const SDL_Rect* clip, const SDL_Rect* rend, const float angle, const SDL_RendererFlip flip) {
-	SDL_RenderCopyEx(mRenderer, tex, clip, rend, angle, nullptr, flip);
+	SDL_RenderCopyEx(m_renderer, tex, clip, rend, angle, nullptr, flip);
 }
 
 void Graphics::render() {
-	SDL_RenderPresent(mRenderer);
+	SDL_RenderPresent(m_renderer);
 }
 
 
@@ -116,8 +113,8 @@ void Graphics::quit()
 	SDL_DestroyWindow(m_window);
 	m_window = nullptr;
 
-	SDL_DestroyRenderer(mRenderer);
-	mRenderer = nullptr;
+	SDL_DestroyRenderer(m_renderer);
+	m_renderer = nullptr;
 
 	TTF_Quit();
 	IMG_Quit();

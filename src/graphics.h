@@ -14,7 +14,7 @@ namespace nashira {
 	private:
 		static SDL_Window* m_window;
 		static SDL_Surface* m_back_buffer;
-		static SDL_Renderer* mRenderer;
+		static SDL_Renderer* m_renderer;
 	public:
 		static bool initialize();
 

@@ -34,21 +34,21 @@ Vector2 Input::mouse_get_pos() {
 	return {static_cast<float>(m_mouse_x), static_cast<float>(m_mouse_y)};
 }
 
-inline bool Input::mouse_button_down(const MOUSE_BUTTONS button) {
+bool Input::mouse_button_down(const MOUSE_BUTTONS button) {
 	return (m_mouse_state & button);
 }
 
-inline bool Input::mouse_button_pressed(const MOUSE_BUTTONS button) {
+bool Input::mouse_button_pressed(const MOUSE_BUTTONS button) {
 	return !(m_prev_mouse_state & button) && (m_mouse_state & button);
 }
 
-inline bool Input::mouse_button_released(const MOUSE_BUTTONS button) {
+bool Input::mouse_button_released(const MOUSE_BUTTONS button) {
 	return (m_prev_mouse_state & button) && !(m_mouse_state & button);
 }
 
-inline bool Input::mouse_is_in_area(const Vector2 &rect_start, const Vector2 &rect_end) {
+bool Input::mouse_is_in_area(const Vector2 &rect_start, const Vector2 &rect_end) {
 	const Vector2 pos = mouse_get_pos();
-	return (pos.x >= rect_start.x && pos.y >= rect_start.y && pos.x <= rect_start.x && pos.y <= rect_start.y);
+	return (pos.x >= rect_start.x && pos.y >= rect_start.y && pos.x <= rect_end.x && pos.y <= rect_end.y);
 }
 
 void Input::update()
